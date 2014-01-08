@@ -22,7 +22,7 @@
                Source="{Binding ElementName=PictureLibImageControl, Path=Placeholder}"
                Height="{Binding ElementName=PictureLibImageControl, Path=ActualHeight}"
                Width="{Binding ElementName=PictureLibImageControl, Path=ActualWidth}"
-               Tapped="OnImageTapped"
+               Tapped="OnImageTapped"               
                />
     </Grid>
 </UserControl>

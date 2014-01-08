@@ -12,7 +12,7 @@
         <controls:PictureLibImage x:Name="PictureLibImage"
                                   Placeholder="/Assets/placeholder_250.png"
                                   FolderName="PictureLibImageTest"
-                                  PictureLibFilePath="E:\ZuneMedia\Pictures\SistersOfMercyWhite500x500.jpg"
+                                  Source="E:\ZuneMedia\Pictures\SistersOfMercyWhite500x500.jpg"
                                   Height="250"
                                   Width="250"
                                   />

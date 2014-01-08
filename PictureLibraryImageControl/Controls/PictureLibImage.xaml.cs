@@ -15,27 +15,17 @@ namespace PictureLibraryImageControl.Controls
     {
         public static readonly AsyncLock _lock = new AsyncLock();
 
-        public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(ImageSource), typeof(PictureLibImage),
-                new PropertyMetadata(default(ImageSource), SourceChanged));
-
         public static readonly DependencyProperty PlaceholderProperty =
             DependencyProperty.Register("Placeholder", typeof(ImageSource), typeof(PictureLibImage),
             new PropertyMetadata(default(ImageSource)));
 
-        public static readonly DependencyProperty PictureLibFilePathProperty =
-            DependencyProperty.Register("PictureLibFilePath", typeof(string), typeof(PictureLibImage),
-            new PropertyMetadata(default(ImageSource), PictureLibFileSet));
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(string), typeof(PictureLibImage),
+            new PropertyMetadata(default(ImageSource), SourceChanged));
 
         public static readonly DependencyProperty FolderNameProperty =
-            DependencyProperty.Register("FolderName", typeof (string), typeof (PictureLibImage),
+            DependencyProperty.Register("FolderName", typeof(string), typeof(PictureLibImage),
                 new PropertyMetadata(default(ImageSource)));
-
-        public ImageSource Source
-        {
-            get { return (ImageSource)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
-        }
 
         public ImageSource Placeholder
         {
@@ -43,16 +33,16 @@ namespace PictureLibraryImageControl.Controls
             set { SetValue(PlaceholderProperty, value); }
         }
 
-        public string PictureLibFilePath
+        public string Source
         {
-            get { return (string)GetValue(PictureLibFilePathProperty); }
-            set { SetValue(PictureLibFilePathProperty, value); }
+            get { return (string)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
         }
 
         public string FolderName
         {
             get { return (string)GetValue(FolderNameProperty); }
-            set { SetValue(FolderNameProperty, value); }            
+            set { SetValue(FolderNameProperty, value); }
         }
 
         public PictureLibImage()
@@ -60,7 +50,7 @@ namespace PictureLibraryImageControl.Controls
             this.InitializeComponent();
         }
 
-        private static async void PictureLibFileSet(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (PictureLibImage)d;
             var file = await StorageFile.GetFileFromPathAsync((string)e.NewValue);
@@ -73,18 +63,6 @@ namespace PictureLibraryImageControl.Controls
 
                     bitmapImage.ImageOpened += (sender, args) => control.LoadImage(bitmapImage);
                 }
-            }
-        }
-
-        private static void SourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var control = (PictureLibImage)dependencyObject;
-            var newSource = (ImageSource)dependencyPropertyChangedEventArgs.NewValue;
-
-            if (newSource != null)
-            {
-                var image = (BitmapImage)newSource;
-                image.ImageOpened += (sender, args) => control.LoadImage(image);
             }
         }
 
@@ -125,7 +103,7 @@ namespace PictureLibraryImageControl.Controls
                     StorageFile selectedPicture = await PosPicFolder.CreateFileAsync(file.Name, CreationCollisionOption.OpenIfExists);
 
                     await FileIO.WriteBytesAsync(selectedPicture, buffer);
-                    this.PictureLibFilePath = selectedPicture.Path;
+                    this.Source = selectedPicture.Path;
                 }
             }
         }
