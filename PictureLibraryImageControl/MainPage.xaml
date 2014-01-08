@@ -5,9 +5,16 @@
     xmlns:local="using:PictureLibraryImageControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:PictureLibraryImageControl.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <controls:PictureLibImage x:Name="PictureLibImage"
+                                  Placeholder="/Assets/placeholder_250.png"
+                                  FolderName="PictureLibImageTest"
+                                  PictureLibFilePath="E:\ZuneMedia\Pictures\SistersOfMercyWhite500x500.jpg"
+                                  Height="250"
+                                  Width="250"
+                                  />
     </Grid>
 </Page>
