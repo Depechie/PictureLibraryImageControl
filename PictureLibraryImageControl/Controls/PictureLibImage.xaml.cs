@@ -99,8 +99,14 @@ namespace PictureLibraryImageControl.Controls
                         reader.ReadBytes(buffer);
                     }
 
-                    StorageFolder PosPicFolder = await KnownFolders.PicturesLibrary.CreateFolderAsync(this.FolderName, CreationCollisionOption.OpenIfExists);
-                    StorageFile selectedPicture = await PosPicFolder.CreateFileAsync(file.Name, CreationCollisionOption.OpenIfExists);
+                    StorageFile selectedPicture = null;
+                    if (!string.IsNullOrEmpty(this.FolderName))
+                    {
+                        StorageFolder PosPicFolder = await KnownFolders.PicturesLibrary.CreateFolderAsync(this.FolderName, CreationCollisionOption.OpenIfExists);
+                        selectedPicture = await PosPicFolder.CreateFileAsync(file.Name, CreationCollisionOption.OpenIfExists);
+                    }
+                    else
+                        selectedPicture = await KnownFolders.PicturesLibrary.CreateFileAsync(file.Name, CreationCollisionOption.OpenIfExists);
 
                     await FileIO.WriteBytesAsync(selectedPicture, buffer);
                     this.Source = selectedPicture.Path;
